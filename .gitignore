@@ -1,0 +1,28 @@
+# === Node modules (both front and back) ===
+back/node_modules/
+front/node_modules/
+
+# === Environment files ===
+**/.env
+**/.env.local
+**/.env.development.local
+**/.env.production.local
+
+# === Logs ===
+**/logs/
+**/*.log
+npm-debug.log*
+
+# === Build output (Next.js and backend builds) ===
+front/.next/
+front/out/
+back/dist/
+back/build/
+back/data
+
+# === Drizzle generated files (optional) ===
+back/src/db/drizzle/
+
+# === OS files ===
+.DS_Store
+Thumbs.db
