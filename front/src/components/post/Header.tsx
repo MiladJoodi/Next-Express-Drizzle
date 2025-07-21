@@ -1,7 +1,11 @@
-import type { FC } from "react";
+import { useContext, type FC } from "react";
+import { PostContext } from "../../context/post/PostContext";
 
 
 const Header:FC = () => {
+    
+    const value = useContext(PostContext)
+    console.log(value)
 
     const onChangeSearch = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {value} = e.target;

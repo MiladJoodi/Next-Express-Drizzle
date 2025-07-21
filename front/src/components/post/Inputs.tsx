@@ -22,7 +22,7 @@ const Inputs: FC = () => {
         <div>
             <label className="form-control w-full">
                 <div className="label">
-                    <span className="label-text font-bold">Title</span>
+                    <span className="label-text font-bold">sara</span>
                 </div>
                 <input
                     value={input.title}
