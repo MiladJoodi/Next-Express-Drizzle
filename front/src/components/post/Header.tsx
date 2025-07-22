@@ -5,7 +5,7 @@ import { PostContext } from "../../context/post/PostContext";
 const Header:FC = () => {
     
     const value = useContext(PostContext)
-    console.log(value)
+    console.log("value", value)
 
     const onChangeSearch = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {value} = e.target;

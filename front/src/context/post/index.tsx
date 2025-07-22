@@ -1,24 +1,25 @@
-// PostProvider.tsx
-import { useEffect, useReducer, useState, type FC } from "react"
-import { PostContext } from "./PostContext"
-import { postReducer } from "../../reducer/post"
-import { InitialPostState } from "../../helper/constants"
-import useQuery from "../../hooks/useQuery"
+import { createContext, useEffect, useReducer, useState, type Dispatch, type FC, type SetStateAction } from "react";
+import { postReducer } from "../../reducer/post";
+import { InitialPostState } from "../../helper/constants";
+import useQuery from "../../hooks/useQuery";
+import { PostContext } from "./PostContext";
+
 
 type ProviderProps = {
     children: React.ReactNode
 }
 
-const PostProvider: FC<ProviderProps> = ({ children }) => {
+const PostProvider: FC<ProviderProps> = (props) => {
     const [postState, dispatch] = useReducer(postReducer, InitialPostState)
     const [search, setSearch] = useState("")
 
-    const [queryUrl, setQueryUrl] = useState<string>("post")
+    // use query hook to get the posts
+    const [queryUrl, setQueryUrl] = useState("post")
     const query = useQuery<Post[]>(queryUrl)
 
-    useEffect(() => {
-        if (search.length){
-            return setQueryUrl(`post?search=${search}`)
+    useEffect(()=>{
+        if(search.length){
+            setQueryUrl(`post?search=${search}`)
         }
         setQueryUrl("post")
     }, [search])
@@ -27,13 +28,17 @@ const PostProvider: FC<ProviderProps> = ({ children }) => {
         query.refetch()
     }, [queryUrl])
 
-    const value = { postState, dispatch, query, search, setSearch }
+    
+    const value = {postState, dispatch, query, search, setSearch}
 
-    return (
+    return(
+        <>
         <PostContext.Provider value={value}>
-            {children}
+            {props.children}
         </PostContext.Provider>
+        </>
     )
+
 }
 
 export default PostProvider

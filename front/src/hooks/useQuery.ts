@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-
 import { Axios, type AxiosResponse } from "../config/http";
 
 export default function useQuery<T>(url: string, lazy = false) {
