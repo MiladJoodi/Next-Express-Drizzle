@@ -4,18 +4,17 @@ import { PostContext } from "../../context/post/PostContext";
 
 const Header:FC = () => {
     
-    const value = useContext(PostContext)
-    console.log("value", value)
+    const {setSearch, postState} = useContext(PostContext)!
 
     const onChangeSearch = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {value} = e.target;
-        console.log(value);
+        setSearch(value)
     }
 
     return (
         <div className='navbar bg-base-100'>
             <div className='flex flex-1'>
-                <p>Posts (2)</p>
+                <p>Posts ({postState?.posts?.length})</p>
             </div>
             <div className='flex-none gap-2'>
                 <div className='form-control'>

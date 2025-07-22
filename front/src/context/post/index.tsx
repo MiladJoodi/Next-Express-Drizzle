@@ -1,8 +1,9 @@
-import { createContext, useEffect, useReducer, useState, type Dispatch, type FC, type SetStateAction } from "react";
+import { useEffect, useReducer, useState, type FC } from "react";
 import { postReducer } from "../../reducer/post";
 import { InitialPostState } from "../../helper/constants";
 import useQuery from "../../hooks/useQuery";
 import { PostContext } from "./PostContext";
+import { useDebounce } from "../../hooks/useDebounce";
 
 
 type ProviderProps = {
@@ -13,16 +14,19 @@ const PostProvider: FC<ProviderProps> = (props) => {
     const [postState, dispatch] = useReducer(postReducer, InitialPostState)
     const [search, setSearch] = useState("")
 
+    const debouncedSearch = useDebounce(search)
+
     // use query hook to get the posts
     const [queryUrl, setQueryUrl] = useState("post")
     const query = useQuery<Post[]>(queryUrl)
 
     useEffect(()=>{
         if(search.length){
-            setQueryUrl(`post?search=${search}`)
+            setQueryUrl(`post?search=${debouncedSearch}`)
+        } else {
+            setQueryUrl("post")
         }
-        setQueryUrl("post")
-    }, [search])
+    }, [debouncedSearch])
 
     useEffect(()=>{
         query.refetch()

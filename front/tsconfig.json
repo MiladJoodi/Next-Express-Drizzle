@@ -6,6 +6,7 @@
   ],
   "compilerOptions": {
     "typeRoots": ["./types", "./node_modules/@types"],
-    "erasableSyntaxOnly": false
+    "erasableSyntaxOnly": false,
+    "types": ["node"]
   }
 }
