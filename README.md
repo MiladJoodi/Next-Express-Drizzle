@@ -1,15 +1,23 @@
 # Next-Express-Drizzle Fullstack Project 🚀
 
-Simple fullstack CRUD application using Next.js for frontend, Express for backend, Drizzle ORM and PostgreSQL database 🛠️🐘.
+A simple yet powerful fullstack CRUD application using **Next.js** for the frontend, **Express** for the backend, and **Drizzle ORM** with **PostgreSQL** as the database. Built with performance and scalability in mind. 🛠️🐘
+
+---
 
 ## Features ✨
 
-- Frontend with Next.js (App Router, TypeScript) ⚛️
-- Backend with Express and TypeScript ⚙️
-- Database access with Drizzle ORM and PostgreSQL 🐘
-- API routes organized under `/api` 🔗
-- Environment variables support with `.env` files 🌿
-- Docker Compose setup for PostgreSQL and Adminer (optional) 🐳
+- **Frontend**: React 19 with Vite, Tailwind CSS, DaisyUI, and TypeScript ⚛️  
+- **Backend**: Express with TypeScript and Drizzle ORM ⚙️  
+- **Database**: PostgreSQL with schema managed via Drizzle 🐘  
+- **ORM**: Drizzle ORM + Zod for type safety and validation ✅  
+- **HTTP Client**: Axios for API calls 🔗  
+- **Form Handling**: Toast notifications with React Toastify 🍞  
+- **Styling**: Tailwind CSS + DaisyUI out of the box 💅  
+- **Type Safety**: Full TypeScript support everywhere 🛡️  
+- **Dev Tools**: ESLint, Vite, Docker, and more 🔧  
+- **Optional Docker setup**: PostgreSQL + Adminer 🐳  
+
+---
 
 ## Getting Started 🚦
 
