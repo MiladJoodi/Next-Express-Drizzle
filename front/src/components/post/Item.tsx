@@ -1,17 +1,30 @@
-import type { FC } from "react";
+import { useContext, type Dispatch, type FC } from "react";
 import { EditIcon } from "../../icons/EditIcon";
 import { DeleteIcon } from "../../icons/DeleteIcon";
+import { PostContext } from "../../context/post/PostContext";
+import { HttpMethod, PostActionType } from "../../helper/constants";
+import useMutation from "../../hooks/useMutation";
 
 const Item: FC<Post> = (post) => {
 
-    const {id, title, content} = post;
+    const { id, title, content } = post;
 
-    const onClickEdit = (post:Post)=>{
+    const { dispatch } = useContext(PostContext) as { dispatch: Dispatch<PostAction> }
+
+    const { execute } = useMutation()
+
+    const onClickEdit = (post: Post) => {
         console.log("edit", post)
+        dispatch({ type: PostActionType.SET_POST, payload: post })
     }
 
-    const onCLickDelete = (id:string)=>{
+    const onCLickDelete = (id: string) => {
         console.log("delete", id)
+        dispatch({ type: PostActionType.DELETE_POST, payload: id })
+        execute({
+            url: `post/${id}`,
+            method: HttpMethod.DELETE
+        })
     }
 
     return (
@@ -22,14 +35,14 @@ const Item: FC<Post> = (post) => {
                         <h2>{title}</h2>
                         <div className="flex items-center gap-2">
                             <button
-                            className="btn btn-circle btn-outline btn-sm"
-                            onClick={()=>onClickEdit(post)}
+                                className="btn btn-circle btn-outline btn-sm"
+                                onClick={() => onClickEdit(post)}
                             >
                                 <EditIcon />
                             </button>
                             <button
-                            className="btn btn-circle btn-outline btn-sm"
-                            onClick={()=>onCLickDelete(id)}
+                                className="btn btn-circle btn-outline btn-sm"
+                                onClick={() => onCLickDelete(id)}
                             >
                                 <DeleteIcon />
                             </button>

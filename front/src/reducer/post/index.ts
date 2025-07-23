@@ -32,10 +32,10 @@ export const postReducer = (state: PostState, action: PostAction) => {
             }
         }
         case PostActionType.DELETE_POST: {
-            const id = action.payload;
+            const id = action.payload!;
             return {
                 selectedPost: InitialPostState.selectedPost,
-                posts: [...state.posts.filter((post) => post.id !== id?.toString())]
+                posts: [...state.posts.filter((post) => post.id !== id)]
             }
         }
         case PostActionType.SET_POST: {

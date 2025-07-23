@@ -9,6 +9,17 @@ export const PostActionType = {
 
 export type PostActionType = keyof typeof PostActionType
 
+
+export const HttpMethod = {
+  GET: "get",
+  POST: "post",
+  PUT: "put",
+  DELETE: "delete",
+} as const;
+
+export type HttpMethod = typeof HttpMethod[keyof typeof HttpMethod];
+
+
 export const InitialPostState: PostState = {
   // posts: [],
   // selectedPost: {id: "1", title: "test title", content: "test content"}
