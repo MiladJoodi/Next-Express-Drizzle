@@ -1,9 +1,13 @@
+import { ToastContainer } from "react-toastify"
 import Post from "./components/post"
 
 function App() {
 
   return (
-    <Post />
+    <>
+      <ToastContainer />
+      <Post />
+    </>
   )
 }
 

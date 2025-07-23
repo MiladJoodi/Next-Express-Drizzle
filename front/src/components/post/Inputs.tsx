@@ -3,16 +3,23 @@ import { PostContext } from "../../context/post/PostContext";
 import useMutation from "../../hooks/useMutation";
 import { HttpMethod, PostActionType } from "../../helper/constants";
 import { randomID } from "../../helper/utils";
+import { z } from "zod";
+import { toast } from "react-toastify";
 
 const DEFAULT_INPUT_VALUE = {
     title: "",
     content: ""
 }
 
+const inputSchema = z.object({
+    title: z.string().refine((value) => value.length >= 4, { message: "Title must be at least 4 characters long" }),
+    content: z.string()
+})
+
 const Inputs: FC = () => {
 
     const { postState, dispatch } = useContext(PostContext)!;
-    const {execute} = useMutation()
+    const { execute } = useMutation()
 
     const [input, setInput] = useState<Record<"title" | "content", string>>(DEFAULT_INPUT_VALUE)
 
@@ -25,7 +32,7 @@ const Inputs: FC = () => {
 
 
     const onAdd = () => {
-        const post = {id: randomID(), ...input}
+        const post = { id: randomID(), ...input }
         execute({
             url: "post",
             method: HttpMethod.POST,
@@ -38,9 +45,9 @@ const Inputs: FC = () => {
     }
 
     const onEdit = () => {
-        const post = {id: postState.selectedPost?.id || "", ...input}
+        const post = { id: postState.selectedPost?.id || "", ...input }
         execute({
-            url: "post",
+            url: `post/${postState.selectedPost?.id}`,
             method: HttpMethod.PUT,
             body: post,
         })
@@ -51,64 +58,75 @@ const Inputs: FC = () => {
     }
 
     const onSubmitClick = () => {
-        console.log("Submited")
+        try {
 
-        if (postState.selectedPost?.id !== "") {
-            onEdit();
-        } else {
-            onAdd()
+            inputSchema.parse(input)
+
+            if (postState.selectedPost?.id !== "") {
+                onEdit();
+            } else {
+                onAdd()
+            }
+            setInput({ ...DEFAULT_INPUT_VALUE })
+
+        } catch (e) {
+            if (e instanceof z.ZodError) {
+                toast.error(JSON.parse(e.toString())[0].message)
+                console.log(e)
+            }
         }
+
     }
 
 
 
-useEffect(() => {
-    setInput({
-        title: postState.selectedPost?.title || "",
-        content: postState.selectedPost?.content || ""
-    })
-}, [postState.selectedPost])
+    useEffect(() => {
+        setInput({
+            title: postState.selectedPost?.title || "",
+            content: postState.selectedPost?.content || ""
+        })
+    }, [postState.selectedPost])
 
-return (
-    <div>
-        <label className="form-control w-full">
-            <div className="label">
-                <span className="label-text font-bold">Title</span>
-            </div>
-            <input
-                value={input.title}
-                type="text"
-                name="title"
-                placeholder="Post title"
-                className="input input-bordered w-full input-sm"
-                onChange={onChangeInput}
-            />
+    return (
+        <div>
+            <label className="form-control w-full">
+                <div className="label">
+                    <span className="label-text font-bold">Title</span>
+                </div>
+                <input
+                    value={input.title}
+                    type="text"
+                    name="title"
+                    placeholder="Post title"
+                    className="input input-bordered w-full input-sm"
+                    onChange={onChangeInput}
+                />
 
-        </label>
+            </label>
 
-        <label className="form-control w-full">
-            <div className="label">
-                <span className="label-text font-bold">Content</span>
-            </div>
-            <textarea
-                value={input.content}
-                placeholder="Post content"
-                className="textarea textarea-bordered w-full textarea-sm"
-                name="content"
-                onChange={onChangeInput}
+            <label className="form-control w-full">
+                <div className="label">
+                    <span className="label-text font-bold">Content</span>
+                </div>
+                <textarea
+                    value={input.content}
+                    placeholder="Post content"
+                    className="textarea textarea-bordered w-full textarea-sm"
+                    name="content"
+                    onChange={onChangeInput}
+                >
+                </textarea>
+            </label>
+
+            <button
+                className="btn btn-primary w-full btn-sm mt-4"
+                onClick={onSubmitClick}
             >
-            </textarea>
-        </label>
+                {postState.selectedPost?.id !== "" ? "Update Post" : "Create Post"}
+            </button>
 
-        <button
-            className="btn btn-primary w-full btn-sm mt-4"
-            onClick={onSubmitClick}
-        >
-            {postState.selectedPost?.id !== "" ? "Update Post" : "Create Post"}
-        </button>
-
-    </div>
-);
+        </div>
+    );
 }
 
 export default Inputs;
